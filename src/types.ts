@@ -1,13 +1,6 @@
 import type { CompiledInstruction, InnerInstruction } from '@triton-one/yellowstone-grpc/dist/types/grpc/solana-storage';
 
 // Core Transfer Types
-export interface SPLTokenTransfer {
-  from: string;
-  to: string;
-  token: string;
-  amount: number;
-}
-
 export interface TransferInstruction {
   senderOffCurveAccount: string;
   token: string;
@@ -15,11 +8,23 @@ export interface TransferInstruction {
   sender: string;
   amount: bigint;
   decimals: number;
+  hash?: string;
 }
 
 export interface TransactionData {
   hash: string;
-  transfer: TransferInstruction;
+  transfers: TransferInstruction[];
+}
+
+export interface BalanceChanges {
+  senderBalances: {
+    previousBalance: bigint;
+    newBalance: bigint;
+  };
+  receiverBalances: {
+    previousBalance: bigint;
+    newBalance: bigint;
+  };
 }
 
 // Error Types

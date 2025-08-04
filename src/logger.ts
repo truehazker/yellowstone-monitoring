@@ -1,5 +1,9 @@
+import { hash } from "node:crypto";
+import type { BalanceChanges, TransferInstruction } from "./types";
+
 export class Logger {
   private static readonly EMOJIS = {
+    HASH: '🔑',
     START: '🚀',
     CONNECT: '📡',
     MONITOR: '🔍',
@@ -39,18 +43,16 @@ export class Logger {
     console.log(`${this.EMOJIS.SUCCESS} ${message}`);
   }
 
-  static transfer(transfer: {
-    from: string;
-    to: string;
-    token: string;
-    amount: number;
-  }): void {
-    const { from, to, token, amount } = transfer;
+  static transfer(transfer: Partial<BalanceChanges> & TransferInstruction): void {
+    const { sender, receiver, token, amount } = transfer;
     console.log(`========================================`);
-    console.log(`${this.EMOJIS.TRANSFER} From: ${from}`);
-    console.log(`${this.EMOJIS.RECEIVER} To: ${to}`);
-    console.log(`${this.EMOJIS.TOKEN} Token: ${token}`);
-    console.log(`${this.EMOJIS.AMOUNT} Amount: ${amount}`);
+    transfer.hash && console.log(`${this.EMOJIS.HASH} Hash: ${transfer.hash}`);
+    console.log(`${this.EMOJIS.TRANSFER} From: ${sender}`);
+    transfer.senderBalances && console.log(`${this.EMOJIS.AMOUNT} From balance: ${transfer.senderBalances.newBalance.toString()}`);
+    console.log(`${this.EMOJIS.RECEIVER} To: ${receiver}`);
+    transfer.receiverBalances && console.log(`${this.EMOJIS.AMOUNT} To balance: ${transfer.receiverBalances.newBalance.toString()}`);
+    console.log(`${this.EMOJIS.TOKEN}  Token: ${token}`);
+    console.log(`${this.EMOJIS.AMOUNT} Amount: ${amount.toString()} ${token}`);
   }
 
   static transferDetails(transactionData: {

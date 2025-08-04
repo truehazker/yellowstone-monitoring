@@ -34,6 +34,7 @@ export class TransferParser {
       instructionBatches[0].instructions.push(...(instructions as InnerInstruction[]));
     }
 
+    const transfers: TransferInstruction[] = [];
     for (const instructionBatch of instructionBatches) {
       const transfer = this.extractTransferFromInstructions(
         instructionBatch.instructions, 
@@ -41,11 +42,11 @@ export class TransferParser {
         hash
       );
       if (transfer) {
-        return { hash, transfer };
+        transfers.push(transfer);
       }
     }
 
-    return null;
+    return { hash, transfers };
   }
 
   /**

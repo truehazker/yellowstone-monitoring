@@ -28,9 +28,9 @@ export class Logger {
     console.error(`${this.EMOJIS.ERROR} ${message}`);
     if (error) {
       if (error instanceof Error) {
-        console.error('Stack trace:', error.stack);
+        console.error('- Stack trace:', error.stack);
       } else {
-        console.error('Error details:', error);
+        console.error('- Error details:', error);
       }
     }
   }
@@ -43,14 +43,12 @@ export class Logger {
     console.log(`${this.EMOJIS.SUCCESS} ${message}`);
   }
 
-  static transfer(transfer: Partial<BalanceChanges> & TransferInstruction): void {
+  static transfer(transfer: TransferInstruction): void {
     const { sender, receiver, token, amount } = transfer;
     console.log(`========================================`);
     transfer.hash && console.log(`${this.EMOJIS.HASH} Hash: ${transfer.hash}`);
     console.log(`${this.EMOJIS.TRANSFER} From: ${sender}`);
-    transfer.senderBalances && console.log(`${this.EMOJIS.AMOUNT} From balance: ${transfer.senderBalances.newBalance.toString()}`);
     console.log(`${this.EMOJIS.RECEIVER} To: ${receiver}`);
-    transfer.receiverBalances && console.log(`${this.EMOJIS.AMOUNT} To balance: ${transfer.receiverBalances.newBalance.toString()}`);
     console.log(`${this.EMOJIS.TOKEN}  Token: ${token}`);
     console.log(`${this.EMOJIS.AMOUNT} Amount: ${amount.toString()} ${token}`);
   }
@@ -69,13 +67,13 @@ export class Logger {
     const { hash, transfer } = transactionData;
     
     console.log(`${this.EMOJIS.FOUND} Found transfer instruction`);
-    console.log('-- Hash:', hash);
-    console.log('-- Sender:', transfer.sender);
-    console.log('-- Receiver:', transfer.receiver);
-    console.log('-- Token:', transfer.token);
-    console.log('-- Sender Off Curve Account:', transfer.senderOffCurveAccount);
-    console.log('-- Amount:', transfer.amount.toString());
-    console.log('-- Decimals:', transfer.decimals);
+    console.log('- Hash:', hash);
+    console.log('- Sender:', transfer.sender);
+    console.log('- Receiver:', transfer.receiver);
+    console.log('- Token:', transfer.token);
+    console.log('- Sender Off Curve Account:', transfer.senderOffCurveAccount);
+    console.log('- Amount:', transfer.amount.toString());
+    console.log('- Decimals:', transfer.decimals);
   }
 
   static startup(endpoint: string): void {

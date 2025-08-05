@@ -1,7 +1,7 @@
-import { StreamManager } from './stream-manager';
-import { TransactionHandler } from './transaction-handler';
-import { CONFIG, SUBSCRIBE_REQUEST } from './config';
-import { Logger } from './logger';
+import { StreamManager } from './monitoring/stream-manager';
+import { CONFIG, SUBSCRIBE_REQUEST } from './common/config';
+import { Logger } from './common/logger';
+import { TransactionHandler } from './monitoring/transaction-handler';
 
 /**
  * Application entry point for SPL token transfer monitoring

@@ -5,8 +5,8 @@ A TypeScript application for monitoring SPL token transfers on Solana using the 
 ## Todo lisT:
 
 - [ ] Parse balances from the transaction (previous balances and new balances)
-- [ ] Parse ALL transfer instruction fron the transaction, not only the first one
-- [ ] Add a database to store the transactions
-- [ ] Improve parsing of the compled instructios
+- [x] Parse ALL transfer instruction fron the transaction, not only the first one
+- [x] Add a database to store the transactions
+- [x] Improve parsing of the compiled instructios
 - [ ] Investigate why sometimes addresses from the body of the instruction have IDs out or bounds of the account keys
-- [ ] Check if we have right addresses as receiver and sender
+- [x] Check if we have right addresses as receiver and sender

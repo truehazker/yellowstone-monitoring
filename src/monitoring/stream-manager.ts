@@ -1,7 +1,7 @@
 import type { ClientDuplexStream } from "@grpc/grpc-js";
 import Client, { SubscribeRequest, SubscribeUpdate } from "@triton-one/yellowstone-grpc";
-import { CONFIG } from './config';
-import { Logger } from './logger';
+import { CONFIG } from '../common/config';
+import { Logger } from '../common/logger';
 
 export class StreamManager {
   private client: Client;

@@ -15,11 +15,19 @@ A TypeScript application for monitoring SPL token transfers on Solana using the 
 
 ## How to run
 
-```bash
-pnpm install
-pnpm run drizzle:init
-pnpm run dev
-```
+1. Setup `.env` file based on the `.env.example` file
+2. Install dependencies
+  ```bash
+  pnpm install
+  ```
+3. Initialize the database (this will create the database file)
+  ```bash
+  pnpm run drizzle:init
+  ```
+4. Run the application
+  ```bash
+  pnpm run dev
+  ```
 
 ## Further improvements
 

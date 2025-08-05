@@ -1,6 +1,5 @@
 import { StreamManager } from './monitoring/stream-manager';
 import { CONFIG, SUBSCRIBE_REQUEST } from './common/config';
-import { Logger } from './common/logger';
 import { TransactionHandler } from './monitoring/transaction-handler';
 
 /**
@@ -22,11 +21,11 @@ class Application {
    */
   async start(): Promise<void> {
     try {
-      Logger.startup(CONFIG.ENDPOINT);
+      console.log(`Connecting to ${CONFIG.ENDPOINT}...`);
       await this.streamManager.connect(SUBSCRIBE_REQUEST);
       this.setupGracefulShutdown();
     } catch (error) {
-      Logger.error('Failed to start application', error);
+      console.error('Failed to start application', error);
       process.exit(1);
     }
   }
@@ -35,7 +34,7 @@ class Application {
    * Handles stream errors
    */
   private handleError(error: Error): void {
-    Logger.error('Stream error', error);
+    console.error('Stream error', error);
   }
 
   /**
@@ -46,7 +45,7 @@ class Application {
     
     for (const signal of shutdownSignals) {
       process.on(signal, () => {
-        Logger.shutdown(signal);
+        console.log(`Shutting down...`);
         this.shutdown();
       });
     }
@@ -71,18 +70,18 @@ async function main(): Promise<void> {
 
 // Handle uncaught exceptions
 process.on('uncaughtException', (error) => {
-  Logger.error('Uncaught exception', error);
+  console.error('Uncaught exception', error);
   process.exit(1);
 });
 
 // Handle unhandled promise rejections
 process.on('unhandledRejection', (reason) => {
-  Logger.error('Unhandled promise rejection', reason);
+  console.error('Unhandled promise rejection', reason);
   process.exit(1);
 });
 
 // Start the application
 main().catch((error) => {
-  Logger.error("Fatal error in main function", error);
+  console.error("Fatal error in main function", error);
   process.exit(1);
 });

@@ -1,7 +1,6 @@
 import type { ClientDuplexStream } from "@grpc/grpc-js";
 import Client, { SubscribeRequest, SubscribeUpdate } from "@triton-one/yellowstone-grpc";
 import { CONFIG } from '../common/config';
-import { Logger } from '../common/logger';
 
 export class StreamManager {
   private client: Client;
@@ -22,7 +21,7 @@ export class StreamManager {
 
   async connect(subscribeRequest: SubscribeRequest): Promise<void> {
     try {
-      Logger.info(`Connecting to ${this.endpoint}...`);
+      console.info(`Connecting to ${this.endpoint}...`);
       this.stream = await this.client.subscribe();
       this.isConnected = true;
       this.reconnectAttempts = 0;
@@ -31,9 +30,9 @@ export class StreamManager {
       await this.writeRequest(subscribeRequest);
       this.startKeepalive();
       
-      Logger.success("Connected and subscribed successfully");
+      console.log("Connected and subscribed successfully");
     } catch (error) {
-      Logger.error("Connection failed", error);
+      console.error("Connection failed", error);
       await this.reconnect(subscribeRequest);
     }
   }
@@ -58,12 +57,12 @@ export class StreamManager {
     try {
       this.onData(data);
     } catch (error) {
-      Logger.error("Error processing data", error);
+      console.error("Error processing data", error);
     }
   }
 
   private handleStreamError(error: unknown): void {
-    Logger.error("Stream error", error);
+    console.error("Stream error", error);
     this.isConnected = false;
     if (this.onError && error instanceof Error) {
       this.onError(error);
@@ -72,7 +71,7 @@ export class StreamManager {
 
   private async handleDisconnect(subscribeRequest: SubscribeRequest): Promise<void> {
     if (this.isConnected) {
-      Logger.info("Stream disconnected, attempting to reconnect...");
+      console.info("Stream disconnected, attempting to reconnect...");
       this.isConnected = false;
       await this.reconnect(subscribeRequest);
     }
@@ -80,14 +79,14 @@ export class StreamManager {
 
   private async reconnect(subscribeRequest: SubscribeRequest): Promise<void> {
     if (this.reconnectAttempts >= CONFIG.MAX_RECONNECT_ATTEMPTS) {
-      Logger.error("Max reconnection attempts reached. Giving up.");
+      console.error("Max reconnection attempts reached. Giving up.");
       return;
     }
 
     this.reconnectAttempts++;
     const delay = this.calculateReconnectDelay();
     
-    Logger.info(`Reconnect attempt ${this.reconnectAttempts}/${CONFIG.MAX_RECONNECT_ATTEMPTS} in ${delay}ms...`);
+    console.info(`Reconnect attempt ${this.reconnectAttempts}/${CONFIG.MAX_RECONNECT_ATTEMPTS} in ${delay}ms...`);
     
     setTimeout(() => {
       this.connect(subscribeRequest).catch(console.error);

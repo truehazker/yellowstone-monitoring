@@ -2,11 +2,21 @@
 
 A TypeScript application for monitoring SPL token transfers on Solana using the Yellowstone gRPC client.
 
-## Todo lisT:
+## Todo list:
 
-- [ ] Parse balances from the transaction (previous balances and new balances)
+- [x] Parse balances from the transaction (previous balances and new balances)
 - [x] Parse ALL transfer instruction fron the transaction, not only the first one
 - [x] Add a database to store the transactions
 - [x] Improve parsing of the compiled instructios
 - [ ] Investigate why sometimes addresses from the body of the instruction have IDs out or bounds of the account keys
+  - Seems like instructions with WSOL use 3 account keys instead of 4 (one is invalid).
+  - Maybe there are multiple implementations of the Transfer/TransferChecked?
 - [x] Check if we have right addresses as receiver and sender
+
+## How to run
+
+```bash
+pnpm install
+pnpm run drizzle:init
+pnpm run dev
+```

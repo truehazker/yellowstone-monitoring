@@ -1,8 +1,8 @@
 import type { SubscribeUpdate, SubscribeUpdateTransactionInfo } from "@triton-one/yellowstone-grpc";
-import { Logger } from "../common/logger";
 import bs58 from 'bs58';
 import { struct, u8, nu64} from '@solana/buffer-layout';
 import type { CompiledInstruction, InnerInstruction } from "@triton-one/yellowstone-grpc/dist/types/grpc/solana-storage";
+import { updateBalances } from "./update-balances";
 
 
 interface TransferLayout {
@@ -43,11 +43,11 @@ export class TransactionHandler {
     }
     
     if (data.pong) {
-      Logger.pong(data.pong.id);
+      console.log(`Pong: ${data.pong.id}`);
     }
 
     if (data.slot) {
-      Logger.slot(Number(data.slot.slot));
+      console.log(`Slot: ${data.slot.slot}`);
     }
   }
 
@@ -168,14 +168,15 @@ export class TransactionHandler {
       });
 
       if (allTransfers.length > 0) {
-        console.log(`└─ 🎉 Found ${allTransfers.length} valid transfers:`);
-        console.log(JSON.stringify(allTransfers, null, 2));
+        console.log(`└─ 🎉 Found ${allTransfers.length} valid transfers`);
+        updateBalances(data.meta?.postTokenBalances || []);
+        // console.log(JSON.stringify(allTransfers, null, 2));
       } else {
         console.log(`└─ ⚠️ No valid transfers found in transaction`);
       }
 
     } catch (error) {
-      Logger.error('Error processing transaction', error);
+      console.error('Error processing transaction', error);
     }
   }
 }

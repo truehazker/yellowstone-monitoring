@@ -20,3 +20,9 @@ pnpm install
 pnpm run drizzle:init
 pnpm run dev
 ```
+
+## Further improvements
+
+- Track how long ago account's balance was updated, introduce cleaning a database if no updates were done within some time to keep database size small
+- Update account's balance based on the transfer event without the need of checking pre and post balances (if balance record exists and server was running non-stop, so no transfer events were skipped). If record does not exist, fallback to the old method.
+- Use better DB, preferable hosted one for reliability and performance reasons.

@@ -38,13 +38,3 @@ export const SUBSCRIBE_REQUEST: SubscribeRequest = {
   blocksMeta: {},
   entry: {}
 } as const;
-
-// Transfer Instruction Constants
-export const TRANSFER_DISCRIMINATORS = {
-  TRANSFER_CHECKED: 12,
-  TRANSFER: 3,
-} as const;
-
-export const TRANSFER_INSTRUCTION_LENGTH = 4;
-export const AMOUNT_DATA_LENGTH = 8;
-export const DECIMALS_INDEX = 9; 
